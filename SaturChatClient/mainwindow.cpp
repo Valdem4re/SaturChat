@@ -70,6 +70,7 @@ void MainWindow::readyRead()
 void MainWindow::on_returnButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
+    delete Socket;
 
 }
 

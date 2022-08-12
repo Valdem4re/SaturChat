@@ -1,6 +1,5 @@
 #include "saturchatserver.h"
 
-
 SaturChatServer::SaturChatServer()
 {
     if(!this->listen(QHostAddress::Any, PORT)){
@@ -65,6 +64,7 @@ void SaturChatServer::slotReadyRead()
                 break;
             }
             QString msg;
+            QString userName;
             QTime time;
             input >> time >> msg;
             blockSize = 0;
