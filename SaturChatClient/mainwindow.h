@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QTcpSocket>
-#include "chatwindow.h"
+
+const int PORT = 5454;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,13 +18,28 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private:
+    QString Address;
+    QByteArray Data;
+    QTcpSocket* Socket;
+    quint16 blockSize;
+    QString userName;
 
+    void sendToServer(QString str);
 
 public slots:
     void on_pushButton_clicked();
 
+    void readyRead();
+
+private slots:
+    void on_returnButton_clicked();
+
+    void on_sendMsgButton_clicked();
+
+    void on_msgLineEdit_returnPressed();
+
 private:
     Ui::MainWindow *ui;
-    ChatWindow *Chat;
 };
 #endif // MAINWINDOW_H

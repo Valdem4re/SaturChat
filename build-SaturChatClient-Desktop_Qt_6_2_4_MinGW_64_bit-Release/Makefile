@@ -182,6 +182,7 @@ Makefile: ../SaturChatClient/SaturChatClient.pro D:/programming/Qt/6.2.4/mingw_6
 		D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/qt_config.prf \
 		D:/programming/Qt/6.2.4/mingw_64/mkspecs/win32-g++/qmake.conf \
 		D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/exclusive_builds.prf \
 		D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/toolchain.prf \
 		D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/default_pre.prf \
@@ -212,7 +213,6 @@ Makefile: ../SaturChatClient/SaturChatClient.pro D:/programming/Qt/6.2.4/mingw_6
 		D:/programming/Qt/6.2.4/mingw_64/lib/Qt6Network.prl \
 		D:/programming/Qt/6.2.4/mingw_64/lib/Qt6Core.prl \
 		D:/programming/Qt/6.2.4/mingw_64/lib/Qt6EntryPoint.prl \
-		.qmake.stash \
 		D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/build_pass.prf
 	$(QMAKE) -o Makefile ..\SaturChatClient\SaturChatClient.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/spec_pre.prf:
@@ -327,6 +327,7 @@ D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/qt_functions.prf:
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/qt_config.prf:
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/win32-g++/qmake.conf:
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/exclusive_builds.prf:
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/toolchain.prf:
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/default_pre.prf:
@@ -357,7 +358,6 @@ D:/programming/Qt/6.2.4/mingw_64/lib/Qt6Gui.prl:
 D:/programming/Qt/6.2.4/mingw_64/lib/Qt6Network.prl:
 D:/programming/Qt/6.2.4/mingw_64/lib/Qt6Core.prl:
 D:/programming/Qt/6.2.4/mingw_64/lib/Qt6EntryPoint.prl:
-.qmake.stash:
 D:/programming/Qt/6.2.4/mingw_64/mkspecs/features/build_pass.prf:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\SaturChatClient\SaturChatClient.pro -spec win32-g++ "CONFIG+=qtquickcompiler"

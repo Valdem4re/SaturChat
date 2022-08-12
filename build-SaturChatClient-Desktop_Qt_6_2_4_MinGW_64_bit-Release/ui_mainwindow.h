@@ -17,7 +17,9 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -26,7 +28,10 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QGridLayout *gridLayout_3;
+    QGridLayout *gridLayout_5;
+    QStackedWidget *stackedWidget;
+    QWidget *connectPage;
+    QGridLayout *gridLayout_4;
     QGridLayout *gridLayout;
     QLabel *label;
     QLineEdit *nameTextEdit;
@@ -37,27 +42,39 @@ public:
     QSpacerItem *verticalSpacer_2;
     QLabel *label_2;
     QSpacerItem *verticalSpacer;
+    QWidget *chatWindow;
+    QGridLayout *gridLayout_3;
+    QPushButton *returnButton;
+    QTextBrowser *chatBrowser;
+    QLineEdit *msgLineEdit;
+    QPushButton *sendMsgButton;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(394, 183);
+        MainWindow->resize(453, 250);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        gridLayout_3 = new QGridLayout(centralwidget);
-        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+        gridLayout_5 = new QGridLayout(centralwidget);
+        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
+        stackedWidget = new QStackedWidget(centralwidget);
+        stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
+        connectPage = new QWidget();
+        connectPage->setObjectName(QString::fromUtf8("connectPage"));
+        gridLayout_4 = new QGridLayout(connectPage);
+        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        label = new QLabel(centralwidget);
+        label = new QLabel(connectPage);
         label->setObjectName(QString::fromUtf8("label"));
         label->setFrameShape(QFrame::Panel);
         label->setAlignment(Qt::AlignCenter);
 
         gridLayout->addWidget(label, 0, 0, 1, 1);
 
-        nameTextEdit = new QLineEdit(centralwidget);
+        nameTextEdit = new QLineEdit(connectPage);
         nameTextEdit->setObjectName(QString::fromUtf8("nameTextEdit"));
         nameTextEdit->setMaxLength(32767);
         nameTextEdit->setFrame(true);
@@ -65,19 +82,19 @@ public:
 
         gridLayout->addWidget(nameTextEdit, 0, 1, 1, 1);
 
-        pushButton = new QPushButton(centralwidget);
+        pushButton = new QPushButton(connectPage);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
 
         gridLayout->addWidget(pushButton, 1, 0, 1, 1);
 
-        addressLineEdit = new QLineEdit(centralwidget);
+        addressLineEdit = new QLineEdit(connectPage);
         addressLineEdit->setObjectName(QString::fromUtf8("addressLineEdit"));
         addressLineEdit->setAlignment(Qt::AlignCenter);
 
         gridLayout->addWidget(addressLineEdit, 1, 1, 1, 1);
 
 
-        gridLayout_3->addLayout(gridLayout, 0, 0, 1, 1);
+        gridLayout_4->addLayout(gridLayout, 0, 0, 1, 1);
 
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
@@ -89,7 +106,7 @@ public:
 
         gridLayout_2->addItem(verticalSpacer_2, 1, 0, 1, 1);
 
-        label_2 = new QLabel(centralwidget);
+        label_2 = new QLabel(connectPage);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setEnabled(false);
         label_2->setTextFormat(Qt::AutoText);
@@ -98,11 +115,40 @@ public:
         gridLayout_2->addWidget(label_2, 2, 0, 1, 1);
 
 
-        gridLayout_3->addLayout(gridLayout_2, 0, 1, 2, 1);
+        gridLayout_4->addLayout(gridLayout_2, 0, 1, 2, 1);
 
-        verticalSpacer = new QSpacerItem(20, 60, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 105, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_3->addItem(verticalSpacer, 1, 0, 1, 1);
+        gridLayout_4->addItem(verticalSpacer, 1, 0, 1, 1);
+
+        stackedWidget->addWidget(connectPage);
+        chatWindow = new QWidget();
+        chatWindow->setObjectName(QString::fromUtf8("chatWindow"));
+        gridLayout_3 = new QGridLayout(chatWindow);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+        returnButton = new QPushButton(chatWindow);
+        returnButton->setObjectName(QString::fromUtf8("returnButton"));
+
+        gridLayout_3->addWidget(returnButton, 0, 0, 1, 2);
+
+        chatBrowser = new QTextBrowser(chatWindow);
+        chatBrowser->setObjectName(QString::fromUtf8("chatBrowser"));
+
+        gridLayout_3->addWidget(chatBrowser, 1, 0, 1, 2);
+
+        msgLineEdit = new QLineEdit(chatWindow);
+        msgLineEdit->setObjectName(QString::fromUtf8("msgLineEdit"));
+
+        gridLayout_3->addWidget(msgLineEdit, 2, 0, 1, 1);
+
+        sendMsgButton = new QPushButton(chatWindow);
+        sendMsgButton->setObjectName(QString::fromUtf8("sendMsgButton"));
+
+        gridLayout_3->addWidget(sendMsgButton, 2, 1, 1, 1);
+
+        stackedWidget->addWidget(chatWindow);
+
+        gridLayout_5->addWidget(stackedWidget, 0, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
@@ -110,6 +156,9 @@ public:
         MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
+
+        stackedWidget->setCurrentIndex(0);
+
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -123,6 +172,8 @@ public:
         pushButton->setText(QCoreApplication::translate("MainWindow", "Connect", nullptr));
         addressLineEdit->setText(QCoreApplication::translate("MainWindow", "127.0.0.1", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p>\302\251Valdemare | </span>alpha_build</p></body></html>", nullptr));
+        returnButton->setText(QCoreApplication::translate("MainWindow", "Exit", nullptr));
+        sendMsgButton->setText(QCoreApplication::translate("MainWindow", "->", nullptr));
     } // retranslateUi
 
 };
