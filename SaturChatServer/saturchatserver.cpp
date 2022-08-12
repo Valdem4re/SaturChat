@@ -23,43 +23,44 @@ void SaturChatServer::sendToClient(QString str)
     output << quint16(0) << QTime::currentTime() << str;
     output.device()->seek(0);
     output << quint16(Data.size() - sizeof(quint16));
-    //output << str;
     for(auto client : Clients){
-        client->write(Data);
+        client->socket->write(Data);
     }
 }
 
 void SaturChatServer::incomingConnection(qintptr socketDescr)
 {
-    Socket = new QTcpSocket;
-    Socket->setSocketDescriptor(socketDescr);
-    Clients.push_back(Socket);
+    userClient = new Client;
+    userClient->socket = new QTcpSocket;
+    userClient->socket->setSocketDescriptor(socketDescr);
+
+    Clients.insert(userClient);
     qDebug() << tr("Client with descriptor %1 has been connected").arg(socketDescr);
 
-    connect(Socket, &QTcpSocket::readyRead, this, &SaturChatServer::slotReadyRead);
-    connect(Socket, &QTcpSocket::disconnected, Socket, &QTcpSocket::deleteLater);
+    connect(userClient->socket, &QTcpSocket::readyRead, this, &SaturChatServer::slotReadyRead);
+    connect(userClient->socket, &QTcpSocket::disconnected, userClient->socket, &QTcpSocket::deleteLater);
 }
 
 void SaturChatServer::slotReadyRead()
 {
     //запсиь сокета, с которого пришел запрос
-    Socket = (QTcpSocket*)sender();
+    userClient->socket = (QTcpSocket*)sender();
 
-    QDataStream input (Socket);
+    QDataStream input (userClient->socket);
     if(input.status() == QDataStream::Ok){
         qDebug() << "Reading...";
         while(true){
 
             if(blockSize == 0){
                 qDebug() << "block size = 0";
-                if(Socket->bytesAvailable() < 2){
+                if(userClient->socket->bytesAvailable() < 2){
                     qDebug() << "Data < 2, break";
                     break;
                 }
                 input >> blockSize;
                 qDebug() << "block size = " << blockSize;
             }
-            if(Socket->bytesAvailable() < blockSize){
+            if(userClient->socket->bytesAvailable() < blockSize){
                 qDebug() <<"The data did not come in full";
                 break;
             }

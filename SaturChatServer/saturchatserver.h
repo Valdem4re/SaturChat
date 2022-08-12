@@ -7,6 +7,13 @@
 #include <QVector>
 #include <QDebug>
 #include <QTime>
+#include <QSet>
+
+struct Client{
+    QHostAddress address;
+    QString userName;
+    QTcpSocket* socket;
+};
 
 const int PORT = 5454;
 
@@ -18,12 +25,15 @@ public:
     SaturChatServer();
     virtual ~SaturChatServer();
 
-    QTcpSocket* Socket;
+    Client* userClient;
+
 private:
 
     QByteArray Data;
-    QVector<QTcpSocket*> Clients;
+
     quint16 blockSize;
+
+    QSet<Client*> Clients;
 
     void sendToClient(QString str);
 

@@ -14,51 +14,62 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::sendToServer(QString str)
+void MainWindow::sendToServerMsg(QString str)
 {
     Data.clear();
     QDataStream output(&Data, QIODevice::WriteOnly);
     output << quint16(0) << QTime::currentTime() << str;
     output.device()->seek(0);
     output << quint16(Data.size() - sizeof(quint16));
-    Socket->write(Data);
+    userClient->socket->write(Data);
     ui->msgLineEdit->clear();
 }
+
+//void MainWindow::sendToServerUserName(Client userClient)
+//{
+//    Data.clear();
+//    QDataStream output(&Data, QIODevice::WriteOnly);
+//    output << quint16(0) << QTime::currentTime() << userClient.userName;
+//}
 
 
 void MainWindow::on_pushButton_clicked()
 {
     blockSize = 0;
-    userName = ui->nameTextEdit->text();
-    Address = ui->addressLineEdit->text();
 
-    Socket = new QTcpSocket(this);
-    connect(Socket, &QTcpSocket::readyRead, this, &MainWindow::readyRead);
-    connect(Socket, &QTcpSocket::disconnected, Socket, &QTcpSocket::deleteLater);
-    Socket->connectToHost(Address, PORT);
+
+    userClient = new Client;
+
+    userClient->userName = ui->nameTextEdit->text();
+    userClient->address = ui->addressLineEdit->text();
+    userClient->socket = new QTcpSocket(this);
+
+    connect(userClient->socket, &QTcpSocket::readyRead, this, &MainWindow::readyRead);
+    connect(userClient->socket, &QTcpSocket::disconnected, userClient->socket, &QTcpSocket::deleteLater);
+    userClient->socket->connectToHost(userClient->address, PORT);
     ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::readyRead()
 {
-    QDataStream input (Socket);
+    QDataStream input (userClient->socket);
     if(input.status() == QDataStream::Ok){
 
         while(true){
 
             if(blockSize == 0){
-                if(Socket->bytesAvailable() < 2)
+                if(userClient->socket->bytesAvailable() < 2)
                     break;
                 input >> blockSize;
             }
-            if(Socket->bytesAvailable() < blockSize)
+            if(userClient->socket->bytesAvailable() < blockSize)
                 break;
             QString msg;
             QTime time;
             QString str_time = time.toString();
             input >> time >> msg;
             blockSize = 0;
-            ui->chatBrowser->append(userName + " (" + time.toString() + ") \n" + msg);
+            ui->chatBrowser->append(userClient->userName + " (" + time.toString() + ") \n" + msg);
         }
     }
     else{
@@ -70,18 +81,18 @@ void MainWindow::readyRead()
 void MainWindow::on_returnButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
-    delete Socket;
+    delete userClient->socket;
 
 }
 
 void MainWindow::on_sendMsgButton_clicked()
 {
-    sendToServer(ui->msgLineEdit->text());
+    sendToServerMsg(ui->msgLineEdit->text());
 }
 
 
 void MainWindow::on_msgLineEdit_returnPressed()
 {
-    sendToServer(ui->msgLineEdit->text());
+    sendToServerMsg(ui->msgLineEdit->text());
 }
 

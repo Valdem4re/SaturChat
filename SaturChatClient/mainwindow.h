@@ -6,6 +6,12 @@
 
 const int PORT = 5454;
 
+struct Client{
+    QString address;
+    QString userName;
+    QTcpSocket* socket;
+};
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -19,13 +25,14 @@ public:
     ~MainWindow();
 
 private:
-    QString Address;
-    QByteArray Data;
-    QTcpSocket* Socket;
-    quint16 blockSize;
-    QString userName;
 
-    void sendToServer(QString str);
+    QByteArray Data;
+    quint16 blockSize;
+    Client* userClient;
+
+    void sendToServerMsg(QString str);
+
+    void sendToServerUserName(Client);
 
 public slots:
     void on_pushButton_clicked();
